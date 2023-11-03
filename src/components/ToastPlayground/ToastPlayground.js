@@ -11,11 +11,11 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
 
-  const variantOptions = VARIANT_OPTIONS.map((option, idx) => {
+  const variantOptions = VARIANT_OPTIONS.map((option) => {
     const id = `variant-${option}`;
 
     return (
-      <label htmlFor={id} key={idx}>
+      <label htmlFor={id} key={id}>
         <input
           id={id}
           type="radio"
