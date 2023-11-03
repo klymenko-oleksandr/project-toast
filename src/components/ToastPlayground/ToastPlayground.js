@@ -1,14 +1,13 @@
 import React from "react";
-
 import Button from "../Button";
-
 import styles from "./ToastPlayground.module.css";
 import ToastShelf from "../ToastShelf";
+import { ToastContext } from "../ToastProvider";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
-  const [stack, setStack] = React.useState([]);
+  const { toasts, createToast, dismissToast } = React.useContext(ToastContext);
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
 
@@ -38,17 +37,12 @@ function ToastPlayground() {
       return;
     }
     const toast = {
-      id: Math.random().toString(36).slice(2),
       variant,
       message,
     };
-    setStack((prevState) => [...prevState, toast]);
+    createToast(toast);
     setMessage("");
     setVariant(VARIANT_OPTIONS[0]);
-  };
-  const onHideToaster = (id) => {
-    const filteredToasters = stack.filter((toaster) => toaster.id !== id);
-    setStack(filteredToasters);
   };
 
   return (
@@ -58,7 +52,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf stack={stack} onHideToaster={onHideToaster} />
+      <ToastShelf stack={toasts} onHideToaster={dismissToast} />
 
       <form className={styles.controlsWrapper} onSubmit={submitHandler}>
         <div className={styles.row}>
